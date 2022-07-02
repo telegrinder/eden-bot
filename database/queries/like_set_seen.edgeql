@@ -1,0 +1,1 @@
+update `Like` filter .to_user.telegram_id = <str>$telegram_id set { seen := true }

@@ -1,0 +1,74 @@
+menu:
+  buttons:
+    - text: "Смотреть анкеты"
+    -
+    - text: "Настройки"
+    - text: "Мой профиль"
+
+next:
+  buttons:
+    - text: "Дальше"
+    -
+    - text: "Меню"
+
+edit:
+  resize_keyboard: true
+  buttons:
+    - text: "🖼"
+      callback_data: "profile/edit/pictures"
+    - text: "Описание"
+      callback_data: "profile/edit/description"
+    -
+    - text: "Возраст"
+      callback_data: "profile/edit/age"
+    - text: "Имя"
+      callback_data: "profile/edit/name"
+    -
+    - text: "Пол"
+      callback_data: "profile/edit/gender"
+    - text: "Кого ищу"
+      callback_data: "profile/edit/interest"
+    -
+    - text: "👈 Вернуться обратно"
+      callback_data: "profile/edit/back"
+
+undo:
+  buttons:
+    - text: "Отменить"
+  one_time_keyboard: true
+
+thats_all:
+  buttons:
+    - text: "Это все"
+
+undo_empty:
+  buttons:
+    - text: "Отменить"
+    - text: "Оставить пустым"
+  one_time_keyboard: true
+
+gender:
+  buttons:
+    - text: "Парень"
+    - text: "Девушка"
+  one_time_keyboard: true
+
+skip:
+  buttons:
+    - text: "Пропустить"
+  one_time_keyboard: true
+
+leave_last:
+  buttons:
+    - text: "Оставить прошлую"
+  one_time_keyboard: true
+
+yn:
+  buttons:
+    - text: "Да"
+    - text: "Нет"
+  one_time_keyboard: true
+
+notset:
+  buttons:
+    - text: "Не указывать"

@@ -1,0 +1,1 @@
+delete `Like` filter .from_user.telegram_id = <str>$telegram_id or .to_user.telegram_id = <str>$telegram_id

@@ -1,0 +1,1 @@
+update User filter .id = <uuid>$uid set {reported := .reported + 1}

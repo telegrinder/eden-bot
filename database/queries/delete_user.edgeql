@@ -1,0 +1,1 @@
+delete User filter .telegram_id = <str>$telegram_id

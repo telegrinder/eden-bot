@@ -1,0 +1,1 @@
+select Admin {telegram_id, promoted_by, promoted_at} filter .telegram_id = <str>$telegram_id

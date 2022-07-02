@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "plantsman"
+version = "0.1.0"
+description = "Bot to find new people"
+authors = ["timoniq"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+envparse = "^0.2.0"
+telegrinder = { git = "https://github.com/timoniq/telegrinder", branch = "main" }
+edgedb = "^0.23.0"
+aiofiles = "^0.8.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

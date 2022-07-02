@@ -1,0 +1,1 @@
+select User { name, telegram_id, pictures: {file_id} } filter .id = <uuid>$uid

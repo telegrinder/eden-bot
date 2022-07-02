@@ -1,0 +1,1 @@
+delete Picture filter .by_tg_id = <str>$telegram_id
