@@ -8,9 +8,9 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.9"
 envparse = "^0.2.0"
-telegrinder = { git = "https://github.com/timoniq/telegrinder", branch = "main" }
 edgedb = "^0.23.0"
 aiofiles = "^0.8.0"
+telegrinder = "^0.1.dev1"
 
 [tool.poetry.dev-dependencies]
 

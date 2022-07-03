@@ -166,26 +166,19 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "telegrinder"
-version = "0.1.0"
+version = "0.1.dev1"
 description = "Grinding telegram events – customizable tool to build telegram bots"
 category = "main"
 optional = false
-python-versions = "^3.8"
-develop = false
+python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-aiohttp = "^3.8.1"
-choicelib = "^0.1.5"
-envparse = "^0.2.0"
-pydantic = "^1.9.0"
-PyYAML = "^6.0"
-vbml = "^1.1.post1"
-
-[package.source]
-type = "git"
-url = "https://github.com/timoniq/telegrinder"
-reference = "main"
-resolved_reference = "b7e41cd9dc7a063f1483c5a1ed8449f18dc53ea5"
+aiohttp = ">=3.8.1,<4.0.0"
+choicelib = ">=0.1.5,<0.2.0"
+envparse = ">=0.2.0,<0.3.0"
+pydantic = ">=1.9.0,<2.0.0"
+PyYAML = ">=6.0,<7.0"
+vbml = ">=1.1.post1,<2.0"
 
 [[package]]
 name = "typing-extensions"
@@ -221,7 +214,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "959c77a4621e6e7dda3b29e879990251b9e1721a2dcf2c2cf9a55f08ed482aa8"
+content-hash = "41caf56c04d72ad577baeb897c5043622df91328d72c7e1a79ea2672282c1987"
 
 [metadata.files]
 aiofiles = [
@@ -544,7 +537,10 @@ pyyaml = [
     {file = "PyYAML-6.0-cp39-cp39-win_amd64.whl", hash = "sha256:b3d267842bf12586ba6c734f89d1f5b871df0273157918b0ccefa29deb05c21c"},
     {file = "PyYAML-6.0.tar.gz", hash = "sha256:68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"},
 ]
-telegrinder = []
+telegrinder = [
+    {file = "telegrinder-0.1.dev1-py3-none-any.whl", hash = "sha256:f5244f865765afdf70497796b9180af74ba416d38c44932066ba40ac93b42336"},
+    {file = "telegrinder-0.1.dev1.tar.gz", hash = "sha256:c98688b4d71f26c0541bdf015c6f179a6f8200ddc640643f6ff049bf9b77c7bb"},
+]
 typing-extensions = [
     {file = "typing_extensions-4.3.0-py3-none-any.whl", hash = "sha256:25642c956049920a5aa49edcdd6ab1e06d7e5d467fc00e0506c44ac86fbfca02"},
     {file = "typing_extensions-4.3.0.tar.gz", hash = "sha256:e6d2677a32f47fc7eb2795db1dd15c1f34eff616bcaf2cfb5e997f854fa1c4a6"},
