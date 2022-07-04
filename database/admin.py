@@ -1,11 +1,13 @@
 import typing
 import datetime
+import collections
 
 from client import db, logger
 
 GET_ADMIN = open("database/queries/get_admin.edgeql").read()
 NEW_ADMIN = open("database/queries/new_admin.edgeql").read()
 DEMOTE = open("database/queries/delete_admin.edgeql").read()
+STATS = open("database/queries/get_stats.edgeql").read()
 
 
 class Admin:
@@ -48,3 +50,11 @@ async def demote(telegram_id: int, demoter_id: int) -> typing.Optional[Admin]:
     if not demoted or demoted.promoted_by != str(demoter_id):
         return None
     await db.query(DEMOTE, telegram_id=str(telegram_id))
+
+
+Stats = collections.namedtuple("Stats", ["user_count", "boys_count", "like_count", "picture_count"])
+
+
+async def get_stats() -> Stats:
+    stats = await db.query(STATS)
+    return Stats(*stats)

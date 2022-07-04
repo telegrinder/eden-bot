@@ -12,8 +12,12 @@ dp = Dispatch()
 
 @dp.message(Text("/stats"), AdminRule())
 async def stats(m: Message):
+    s = await database.admin.get_stats()
+    boy_percent = round((s.boys_count / s.user_count) * 100, 1)
     await m.answer(
-        f"Последний перезапуск: {datetime.datetime.strftime(STARTED, '%d.%m.%Y %H:%M')}"
+        f"Последний перезапуск: {datetime.datetime.strftime(STARTED, '%d.%m.%Y %H:%M')}\n"
+        f"Кол-во пользователей: {s.user_count}\n"
+        f"М / Ж: {s.boys_count} ({boy_percent}%) / {s.user_count - s.boys_count} ({100 - boy_percent}%)"
     )
 
 

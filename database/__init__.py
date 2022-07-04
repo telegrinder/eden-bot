@@ -1,1 +1,1 @@
-from . import user, like, picture
+from . import user, like, picture, admin
