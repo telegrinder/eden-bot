@@ -15,6 +15,7 @@ DELETE = open("database/queries/delete_user.edgeql").read()
 SET_CITY = open("database/queries/set_city.edgeql").read()
 TOGGLE_SEARCH_CITY = open("database/queries/toggle_search_city.edgeql").read()
 TOGGLE_SAFE_MODE = open("database/queries/toggle_safe_mode.edgeql").read()
+UPDATE_LAST_ACTIVE = open("database/queries/update_last_active.edgeql").read()
 
 _ = typing.Any
 
@@ -95,3 +96,11 @@ async def toggle_search_city(telegram_id: int) -> UserResponse:
 
 async def toggle_safe_mode(telegram_id: int) -> UserResponse:
     return await db.query(TOGGLE_SAFE_MODE, telegram_id=str(telegram_id))
+
+
+async def update_last_active(telegram_id: int):
+    await db.query(
+        UPDATE_LAST_ACTIVE,
+        telegram_id=str(telegram_id),
+        time_now=datetime.datetime.now()
+    )

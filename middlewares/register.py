@@ -52,9 +52,9 @@ class RegisterMiddleware(ABCMiddleware):
             m2, _ = await bot.dispatch.message.wait_for_message(
                 m.chat.id,
                 FuncRule(
-                    lambda msg, _: msg.text
-                    and msg.text.isdigit()
-                    and 15 <= int(msg.text) <= 100
+                    lambda event, _: event["message"]["text"]
+                    and event["message"]["text"].isdigit()
+                    and 15 <= int(event["message"]["text"]) <= 100
                 ),
                 default="Пожалуйста напиши возвраст числом, учти, что анкету "
                 "можно создавать, как минимум достигнув возраста 15 лет",
@@ -137,15 +137,15 @@ class RegisterMiddleware(ABCMiddleware):
                 ph_m, _ = await bot.dispatch.message.wait_for_message(
                     m.chat.id,
                     FuncRule(
-                        lambda msg, _: (
-                            msg.text
+                        lambda event, _: (
+                            event["message"].get("text")
                             and (
-                                msg.text.lower() in ("это все", "это всё")
+                                event["message"]["text"].lower() in ("это все", "это всё")
                                 and len(photos)
-                                or msg.text.lower() == "оставить прошлую"
+                                or event["message"]["text"].lower() == "оставить прошлую"
                             )
                         )
-                        or msg.photo
+                        or event["message"]["photo"]
                     ),
                     default="Пришли фотографию для твоего профиля",
                 )

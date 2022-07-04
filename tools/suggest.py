@@ -48,7 +48,8 @@ async def suggest(user: User) -> typing.List[User]:
         "select A {name, telegram_id} filter .telegram_id not in array_unpack(suggest_to.checked) and .display = true"
     )
     if user.city and user.search_city:
-        q += " and " + ".city = suggest_to.city order by .last_active desc limit 10"
+        q += " and " + ".city = suggest_to.city order by .last_active desc"
+    q += "  limit 10"
     suggestions = list(await db.query(q, telegram_id=user.telegram_id))
     random.shuffle(suggestions)
     return suggestions

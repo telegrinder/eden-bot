@@ -80,7 +80,7 @@ async def settings_set(cb: CallbackQuery):
             reply_markup=KeyboardSet.KEYBOARD_NOTSET.get_markup(),
         )
         m, _ = await bot.dispatch.message.wait_for_message(
-            cb.from_.id, FuncRule(lambda msg, _: bool(msg.text))
+            cb.from_.id, FuncRule(lambda event, _: bool(event["message"]["text"]))
         )
         if m.text.lower() == "не указывать":
             await database.user.set_city(m.from_.id, 0)

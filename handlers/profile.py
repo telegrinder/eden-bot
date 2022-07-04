@@ -7,6 +7,7 @@ from telegrinder.types import InlineKeyboardMarkup
 import database.picture
 from database.user import User
 from client import api, bot, db
+from logic import HasPhoto
 from keyboard.set import no_kb, KeyboardSet
 from tools import send_profile, send_menu
 import typing
@@ -61,7 +62,8 @@ async def edit_age(chat_id: int):
             and (
                 (msg.text.isdigit() and 15 <= int(msg.text) <= 100)
                 or msg.text.lower() == "отменить"
-            )
+            ),
+            ("message", Message)
         ),
         default="Пожалуйста напиши возвраст числом, учти, что минимальный "
         "возраст 15 лет",
@@ -88,16 +90,9 @@ async def edit_pictures(chat_id: int):
     while len(photos) < 3:
         ph_m, _ = await bot.dispatch.message.wait_for_message(
             chat_id,
-            FuncRule(
-                lambda msg, _: (
-                    msg.text
-                    and (
-                        (msg.text.lower() in ("это все", "это всё") and len(photos))
-                        or msg.text.lower() == "отменить"
-                    )
-                )
-                or msg.photo
-            ),
+            HasPhoto()
+            | (Text(["это все", "это всё"], ignore_case=True))
+            | (Text("отменить", ignore_case=True)),
             default="Пришли фотографию для твоего профиля",
         )
         if ph_m.text and ph_m.text.lower() in ("это все", "это всё", "отменить"):
