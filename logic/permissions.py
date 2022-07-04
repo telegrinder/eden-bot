@@ -1,11 +1,12 @@
 import database.admin
 from client import SYSTEM_ADMINS
-from telegrinder.bot.rules import ABCRule
+from telegrinder.bot.rules import ABCMessageRule
+from telegrinder import Message
 
 
-class AdminRule(ABCRule):
-    async def check(self, m: dict, ctx: dict) -> bool:
-        return await is_admin(m["message"]["from_"]["id"])
+class AdminRule(ABCMessageRule):
+    async def check(self, m: Message, ctx: dict) -> bool:
+        return await is_admin(m.from_.id)
 
 
 async def is_admin(telegram_id: int) -> bool:

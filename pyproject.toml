@@ -10,7 +10,7 @@ python = "^3.9"
 envparse = "^0.2.0"
 edgedb = "^0.23.0"
 aiofiles = "^0.8.0"
-telegrinder = "^0.1.dev1"
+telegrinder = "^0.1.dev2"
 
 [tool.poetry.dev-dependencies]
 
