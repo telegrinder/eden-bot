@@ -52,7 +52,9 @@ async def demote(telegram_id: int, demoter_id: int) -> typing.Optional[Admin]:
     await db.query(DEMOTE, telegram_id=str(telegram_id))
 
 
-Stats = collections.namedtuple("Stats", ["user_count", "boys_count", "like_count", "picture_count"])
+Stats = collections.namedtuple(
+    "Stats", ["user_count", "boys_count", "like_count", "picture_count"]
+)
 
 
 async def get_stats() -> Stats:

@@ -1,7 +1,7 @@
 import typing
 
 from telegrinder import KeyboardSetYAML, Keyboard, InlineKeyboard, InlineButton
-from telegrinder.types import ReplyKeyboardRemove, InlineKeyboardMarkup
+from telegrinder.types import ReplyKeyboardRemove
 
 
 class KeyboardSet(KeyboardSetYAML):

@@ -12,7 +12,7 @@ from database.user import User
 from client import bot
 from tools import send_menu, search_city
 from logic import SETTING_TOGGLE_RECEIVED
-from keyboard.set import KeyboardSet
+from keyboard.keyboard import KeyboardSet
 
 dp = Dispatch()
 
@@ -52,8 +52,9 @@ def get_text(user: User):
     return (
         f"Настройки: \n"
         f"Город: {user.city_written_name if user.city else 'не указан'}\n"
-        f"Поиск: {'безопасный' if user.safe_mode else 'без модерации'}, {'только в твоем городе' if user.search_city else 'где угодно'}\n"
-        f"Если ты хочешь полностью сбросить свой профиль, воспользуйся командой /reset"
+        f"Поиск: {'безопасный' if user.safe_mode else 'без модерации'}, {'только в твоем городе' if user.search_city else 'где угодно'}\n\n"
+        f"Если ты хочешь полностью сбросить свой профиль, воспользуйся командой /reset\n"
+        f"Если ты просто хочешь скрыть его, это можно сделать в разделе редактирования профиля."
     )
 
 

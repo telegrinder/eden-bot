@@ -102,5 +102,5 @@ async def update_last_active(telegram_id: int):
     await db.query(
         UPDATE_LAST_ACTIVE,
         telegram_id=str(telegram_id),
-        time_now=datetime.datetime.now()
+        time_now=datetime.datetime.now(),
     )

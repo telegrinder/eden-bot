@@ -1,7 +1,7 @@
 from client import api
 from telegrinder.types import InputMediaPhoto
 from client import logger
-from keyboard.set import KeyboardSet
+from keyboard.keyboard import KeyboardSet
 import database
 
 

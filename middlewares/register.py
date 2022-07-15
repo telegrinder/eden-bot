@@ -1,6 +1,6 @@
 import typing
 
-from keyboard.set import KeyboardSet, no_kb, gen_interest_kb
+from keyboard.keyboard import KeyboardSet, no_kb, gen_interest_kb
 import database
 from client import logger, bot
 from telegrinder import (
@@ -140,9 +140,11 @@ class RegisterMiddleware(ABCMiddleware):
                         lambda event, _: (
                             event["message"].get("text")
                             and (
-                                event["message"]["text"].lower() in ("это все", "это всё")
+                                event["message"]["text"].lower()
+                                in ("это все", "это всё")
                                 and len(photos)
-                                or event["message"]["text"].lower() == "оставить прошлую"
+                                or event["message"]["text"].lower()
+                                == "оставить прошлую"
                             )
                         )
                         or event["message"]["photo"]

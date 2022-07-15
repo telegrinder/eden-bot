@@ -2,7 +2,7 @@ from telegrinder import Dispatch, Message, InlineKeyboard, InlineButton
 from telegrinder.bot.rules import Text
 from tools import send_profile, send_menu, suggest
 from database.user import User, add_checked
-from keyboard.set import KeyboardSet, no_kb
+from keyboard.keyboard import KeyboardSet, no_kb
 
 dp = Dispatch()
 

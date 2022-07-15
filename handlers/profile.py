@@ -8,7 +8,7 @@ import database.picture
 from database.user import User
 from client import api, bot, db
 from logic import HasPhoto
-from keyboard.set import no_kb, KeyboardSet
+from keyboard.keyboard import no_kb, KeyboardSet
 from tools import send_profile, send_menu
 import typing
 
@@ -63,7 +63,7 @@ async def edit_age(chat_id: int):
                 (msg.text.isdigit() and 15 <= int(msg.text) <= 100)
                 or msg.text.lower() == "отменить"
             ),
-            ("message", Message)
+            ("message", Message),
         ),
         default="Пожалуйста напиши возвраст числом, учти, что минимальный "
         "возраст 15 лет",
@@ -328,7 +328,7 @@ async def profile_edit_field(cb: CallbackQuery):
     FuncRule(lambda cb, _: cb["callback_query"].get("data") == "profile/toggle_hide")
 )
 async def profile_hide(cb: CallbackQuery):
-    await cb.answer("Меняем настройки доступности профиля профиль.")
+    await cb.answer("Меняем настройки доступности профиля.")
     await db.query(
         "update User filter .telegram_id = <str>$telegram_id set { display := not .display }",
         telegram_id=str(cb.from_.id),
