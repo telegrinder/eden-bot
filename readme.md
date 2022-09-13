@@ -12,9 +12,9 @@ Plantsman uses EdgeDB as database.
 
 ## TODO
 
-* [ ] Auto new requests notifier
+* [x] Auto new requests notifier
 * [ ] Convenient admin panel
-* [ ] Auto NSFW content detection
+* [x] Auto NSFW content detection
 
 ## License
 
