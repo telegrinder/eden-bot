@@ -22,19 +22,25 @@ async def send_profile(chat_id: int, uid: int) -> int:
     if user.description:
         text += f" – {user.description}"
 
-    mid = (
-        await api.send_media_group(
-            chat_id,
-            [
-                InputMediaPhoto(
-                    type="photo", media=photo.file_id, caption=text if i == 0 else None
-                )
-                for i, photo in enumerate(user.pictures)
-            ],
-        )
-    ).unwrap()
+    if user.pictures:
 
-    return mid[0].message_id
+        mid = (
+            await api.send_media_group(
+                chat_id,
+                [
+                    InputMediaPhoto(
+                        type="photo",
+                        media=photo.file_id,
+                        caption=text if i == 0 else None,
+                    )
+                    for i, photo in enumerate(user.pictures)
+                ],
+            )
+        ).unwrap()[0]
+    else:
+        mid = (await api.send_message(chat_id, text)).unwrap()
+
+    return mid.message_id
 
 
 async def send_menu(chat_id: int):

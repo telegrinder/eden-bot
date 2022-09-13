@@ -9,6 +9,7 @@ env.read_envfile(".env")
 
 api = telegrinder.API(token=telegrinder.Token.from_env(is_read=True))
 bot = telegrinder.Telegrinder(api)
+fmt = telegrinder.tools.MarkdownFormatter
 db = edgedb.create_async_client()
 logger = logging.getLogger("bot")
 

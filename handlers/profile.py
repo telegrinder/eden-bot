@@ -11,6 +11,7 @@ from logic import HasPhoto
 from keyboard.keyboard import no_kb, KeyboardSet
 from tools import send_profile, send_menu
 import typing
+import tools.safety
 
 dp = Dispatch()
 
@@ -44,7 +45,7 @@ async def edit_name(chat_id: int):
     await db.query(
         "update User filter .telegram_id = <str>$telegram_id set {name := <str>$name}",
         telegram_id=str(chat_id),
-        name=m.text,
+        name=tools.safety.make_safe(m.text),
     )
     await api.send_message(chat_id, "Имя изменено.", reply_markup=no_kb)
 
@@ -129,7 +130,7 @@ async def edit_description(chat_id: int):
     await db.query(
         "update User filter .telegram_id = <str>$telegram_id set {description := <str>$description}",
         telegram_id=str(chat_id),
-        description=description,
+        description=tools.safety.make_safe(description),
     )
     await api.send_message(chat_id, "Описание изменено.", reply_markup=no_kb)
 
@@ -175,7 +176,7 @@ async def edit_interest(chat_id: int):
     ).unwrap()
     while True:
         q: CallbackQuery
-        q, _ = await bot.dispatch.callback_query.wait_for_answer(chat_id)
+        q, _ = await bot.dispatch.callback_query.wait_for_answer(to_edit.message_id)
         if not q.data.startswith("interest/"):
             continue
         elif q.data == "interest/done":

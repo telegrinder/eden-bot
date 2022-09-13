@@ -1,5 +1,6 @@
 import typing
 import datetime
+import tools.safety
 
 from client import db
 
@@ -60,6 +61,9 @@ async def get_by_uid(uid: str) -> UserResponse:
 
 
 async def new(telegram_id: int, **fields) -> UserResponse:
+    for field in fields:
+        if isinstance(fields[field], str):
+            fields[field] = tools.safety.make_safe(fields[field])
     return await db.query(
         NEW, telegram_id=str(telegram_id), time_now=datetime.datetime.now(), **fields
     )

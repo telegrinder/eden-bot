@@ -83,7 +83,9 @@ class RegisterMiddleware(ABCMiddleware):
             interest = []
             while True:
                 q: CallbackQuery
-                q, _ = await bot.dispatch.callback_query.wait_for_answer(m.chat.id)
+                q, _ = await bot.dispatch.callback_query.wait_for_answer(
+                    to_edit.message_id
+                )
                 if not q.data.startswith("interest/"):
                     continue
                 elif q.data == "interest/done":

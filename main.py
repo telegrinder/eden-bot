@@ -3,12 +3,13 @@ import asyncio
 from client import bot
 from handlers import dps
 from middlewares import RegisterMiddleware, CheckLikesMiddleware, LastActiveMiddleware
+from services import run_nude_detection_workers
 import logging
 import tasks.notify
 from telegrinder.modules import logger as logg
 from client import logger
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
 logg.setLevel(logging.ERROR)
 logging.basicConfig(level=logging.INFO)
 
@@ -22,5 +23,6 @@ bot.dispatch.message.middlewares.extend(
 )
 
 loop.create_task(tasks.notify.notify_task())
+run_nude_detection_workers(loop)
 logger.info("Running.")
 bot.run_forever()

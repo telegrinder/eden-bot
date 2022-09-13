@@ -1,8 +1,8 @@
 from telegrinder import Dispatch, CallbackQuery
 
 import database.like
-from tools import send_profile, escape
-from client import logger
+from tools import send_profile
+from client import logger, fmt
 from logic import LIKE_RECEIVED
 
 dp = Dispatch()
@@ -52,23 +52,27 @@ async def like(cb: CallbackQuery):
 
         user = (await database.user.get_full(telegram_id=cb.from_.id))[0]
 
+        msg_1 = fmt.escape("Взаимная симпатия! Начинай общаться ") + fmt(
+            "👉 " + to_like[0].name
+        ).mention(to_like[0].telegram_id)
+
         await cb.ctx_api.send_message(
             chat_id=cb.from_.id,
-            text=f"Взаимная симпатия\\! "
-            f"Начинай общаться [👉 {escape(to_like[0].name)}](tg://user?id={to_like[0].telegram_id})",
-            reply_to_message_id=await send_profile(
-                cb.from_.id, int(to_like[0].telegram_id)
-            ),
-            parse_mode="MarkdownV2",
+            text=msg_1,
+            parse_mode=fmt.PARSE_MODE,
+        )
+
+        msg_2 = (
+            fmt.escape("Есть взаимная симпатия! Начинай общаться ")
+            + fmt(user.name).mention(user.telegram_id)
+            + ("" if not cb.from_.username else f" / @{fmt.escape(cb.from_.username)}")
         )
 
         await cb.ctx_api.send_message(
             chat_id=to_like[0].telegram_id,
-            text=f"Есть взаимная симпатия\\! "
-            f"Начинай общаться [👉 {escape(user.name)}](tg://user?id={user.telegram_id})"
-            + ("" if not cb.from_.username else f" / @{escape(cb.from_.username)}"),
+            text=msg_2,
             reply_to_message_id=await send_profile(
                 int(to_like[0].telegram_id), cb.from_.id
             ),
-            parse_mode="MarkdownV2",
+            parse_mode=fmt.PARSE_MODE,
         )
