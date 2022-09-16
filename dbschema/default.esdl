@@ -50,10 +50,6 @@ module default {
         required property file_id -> str;
         property moderated -> bool;
     }
-    type Advert {
-        required property promoted_link -> str;
-        required property ad_text -> str;
-    }
     type `Like` {
         required link from_user -> User;
         required link to_user -> User;
