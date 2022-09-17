@@ -94,3 +94,8 @@ def run_nude_detection_workers(loop: asyncio.AbstractEventLoop):
 
 def test_worker(path: str):
     return nude.Nude(path).parse().result
+
+
+if __name__ == "__main__":
+    loop = asyncio.new_event_loop()
+    run_nude_detection_workers(loop)

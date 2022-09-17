@@ -17,6 +17,7 @@ SET_CITY = open("database/queries/set_city.edgeql").read()
 TOGGLE_SEARCH_CITY = open("database/queries/toggle_search_city.edgeql").read()
 TOGGLE_SAFE_MODE = open("database/queries/toggle_safe_mode.edgeql").read()
 UPDATE_LAST_ACTIVE = open("database/queries/update_last_active.edgeql").read()
+GET_REPORTED = open("database/queries/get_reported.edgeql").read()
 
 _ = typing.Any
 
@@ -108,3 +109,7 @@ async def update_last_active(telegram_id: int):
         telegram_id=str(telegram_id),
         time_now=datetime.datetime.now(),
     )
+
+
+async def get_reported_users() -> typing.List[int]:
+    return [int(u.telegram_id) for u in await db.query(GET_REPORTED)]

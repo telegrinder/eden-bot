@@ -45,7 +45,8 @@ async def suggest(user: User) -> typing.List[User]:
     q = (
         "with suggest_to := (select User { id, telegram_id, checked } filter .telegram_id = <str>$telegram_id), "
         "A := (select distinct " + " union ".join(qs) + ")\n"
-        "select A {name, telegram_id} filter .telegram_id not in array_unpack(suggest_to.checked) and .display = true"
+        "select A {name, telegram_id} filter .telegram_id not in array_unpack(suggest_to.checked) and .display = true "
+        "and .reported < 5"
     )
     if user.city and user.search_city:
         q += " and " + ".city = suggest_to.city order by .last_active desc"

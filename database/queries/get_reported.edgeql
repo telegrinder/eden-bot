@@ -1,0 +1,1 @@
+select User {telegram_id} filter .reported > 0 order by .reported

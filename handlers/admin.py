@@ -37,3 +37,8 @@ async def demote(m: Message, to_demote: int):
         await m.reply("Что-то пошло не так")
         return
     await m.reply("Готово")
+
+
+@dp.message(Text("/reported"), AdminRule())
+async def check_reports(m: Message):
+    await m.answer(str(await database.user.get_reported_users()))
