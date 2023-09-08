@@ -44,6 +44,7 @@ module default {
         required property reported -> int16 {
             default := 0;
         }
+        link university -> Uni;
     }
     type Picture {
         required property by_tg_id -> str;
@@ -63,5 +64,9 @@ module default {
         }
         required property promoted_by -> str;
         required property promoted_at -> cal::local_datetime;
+    }
+    type Uni {
+        required property name -> str;
+        required property city -> int16;
     }
 }

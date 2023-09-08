@@ -6,6 +6,7 @@ import os
 import database.picture
 import telegrinder
 import edgedb
+
 from client import bot, db as async_db_client
 import aiofiles
 import threading
@@ -17,6 +18,8 @@ db_client = edgedb.create_client()
 
 nude_queue = queue.Queue()
 bad_pictures = queue.Queue()
+
+logger = logging.getLogger("nsfw")
 
 
 async def save_picture(picture: database.picture.Picture, as_path: str) -> bool:
@@ -42,25 +45,27 @@ async def put_picture(picture: database.picture.Picture) -> bool:
 
 def queue_parser():
     while True:
+        logger.info("Waiting for new pictures to parse...")
         item: typing.Tuple[database.picture.Picture, nude.Nude] = nude_queue.get()
-        logging.info("Parsing picture " + item[0].file_id)
+        logger.info("Parsing picture " + item[0].file_id)
         nude_pic = item[1]
         nude_pic.parse()
         if nude_pic.result:
-            logging.info("Picture {} is nudity".format(item[0].file_id))
+            logger.info("Picture {} is nudity".format(item[0].file_id))
             bad_pictures.put(item[0])
         os.remove("pic_" + item[0].file_id + ".jpg")
 
 
 def queue_deleter(loop: asyncio.AbstractEventLoop):
     while True:
+        logger.info("Waiting for new bad pictures to delete...")
         item: database.picture.Picture = bad_pictures.get()
-        logging.info("Deleting picture " + item.file_id)
+        logger.info("Deleting picture " + item.file_id)
         db_client.query("delete Picture filter .file_id = <str>$f", f=item.file_id)
         loop.create_task(
             bot.api.send_message(
                 item.by_tg_id,
-                "🔞 В одной из твоих фотографий было обнаружено NSFW, поэтому она была удалена из профиля",
+                text="🔞 В одной из твоих фотографий было обнаружено NSFW, поэтому она была удалена из профиля",
             )
         )
 
@@ -70,32 +75,23 @@ async def worker_put():
         pictures = await async_db_client.query(
             "select Picture {file_id, by_tg_id, moderated} filter .moderated = false"
         )
-        await asyncio.gather(*(put_picture(pic) for pic in pictures))
-        await async_db_client.query(
-            "update Picture {file_id} filter contains(<array<str>>$ids, .file_id) set {moderated := true}",
-            ids=[pic.file_id for pic in pictures],
-        )
+        logger.info("Putting pictures")
+        if pictures:
+            await asyncio.gather(*(put_picture(pic) for pic in pictures))
+            await async_db_client.query(
+                "update Picture {file_id} filter contains(<array<str>>$ids, .file_id) set {moderated := true}",
+                ids=[pic.file_id for pic in pictures],
+            )
+        logger.info("Pictures put")
         await asyncio.sleep(60)
 
 
-def worker_parse():
-    queue_parser()
-
-
-def worker_delete(loop: asyncio.AbstractEventLoop):
-    queue_deleter(loop)
-
-
 def run_nude_detection_workers(loop: asyncio.AbstractEventLoop):
-    threading.Thread(target=worker_parse).start()
-    threading.Thread(target=worker_delete, args=(loop,)).start()
+    logger.info("Running NSFW detection")
     loop.create_task(worker_put())
+    threading.Thread(target=queue_parser).start()
+    threading.Thread(target=queue_deleter, args=(loop,)).start()
 
 
 def test_worker(path: str):
     return nude.Nude(path).parse().result
-
-
-if __name__ == "__main__":
-    loop = asyncio.new_event_loop()
-    run_nude_detection_workers(loop)

@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <title>Поиск вуза</title>
+    </head>
+    <style>
+        * {
+            font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        }
+        input {
+            width: 100%;
+            height: 100px;
+            font-size: 20px;
+            background: #f3f3f3;
+            border: 2px solid #f3f3f3;
+            padding-left: 20px;
+        }
+        h1 {
+            margin-top: 40px;
+        }
+    </style>
+    <body>
+
+        <script>
+            const initData = JSON.stringify(Telegram.WebApp);
+
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("POST", "/auth?" + Telegram.WebApp.initData, false);
+            xmlHttp.send( null );
+
+            let authToken = JSON.parse(xmlHttp.responseText).token;
+
+            let update_timer = null;
+
+            function copyToken() {
+                navigator.clipboard.writeText(authToken);
+                alert("token copied");
+            }
+
+            function plan_update(q) {
+                if (update_timer) {
+                    clearTimeout(update_timer);
+                }
+                update_timer = setTimeout(update_unis, 500, q);
+            }
+
+            function update_unis(q) {
+                let xmlHttp = new XMLHttpRequest();
+                xmlHttp.open("GET", "/uni/search?q=" + q, false);
+                xmlHttp.send( null );
+
+                let response = JSON.parse(xmlHttp.responseText);
+
+                let unis = document.getElementById("unis");
+                
+                unis.innerHTML = "";
+
+                for (let i = 0; i < response.length; i++) {
+                    let node = document.createElement("div");
+                    node.className = "university";
+                    node.innerText = response[i].name;
+                    node.id = response[i].id;
+                    unis.appendChild(
+                        node
+                    );
+                }
+            }
+        </script>
+
+        <h1>Поиск вуза</h1>
+        <hr>
+        <div style="display: block; background: white; position: sticky; top: 0; padding-top: 10px; padding-bottom: 10px; border-bottom: 1px solid gray">
+            <input placeholder="Начните вводить название..." oninput="plan_update(this.value)">
+        </div>
+        <div id="unis">
+        </div>
+    </body>
+</html>

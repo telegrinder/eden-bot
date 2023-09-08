@@ -1,0 +1,1 @@
+select Uni {id, name, city} filter contains(str_lower(.name), str_lower(<str>$q))

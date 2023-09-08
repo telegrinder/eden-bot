@@ -2,16 +2,19 @@
 name = "plantsman"
 version = "0.1.0"
 description = "Bot to find new people"
-authors = ["timoniq"]
+authors = ["timoniq <arseny.kriuchkov@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.11"
 envparse = "^0.2.0"
-edgedb = "^0.23.0"
+edgedb = "^1.5.0"
 aiofiles = "^0.8.0"
-telegrinder = "^0.1.dev6"
-nudepy = "^0.5.1"
+telegrinder = {git = "https://github.com/timoniq/telegrinder", rev = "dev"}
+fastapi = "^0.103.1"
+python-jose = "^3.3.0"
+uvicorn = "^0.23.2"
+jinja2 = "^3.1.2"
 
 [tool.poetry.dev-dependencies]
 
