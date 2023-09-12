@@ -13,15 +13,16 @@ async def start(m: Message):
 
 from telegrinder import InlineKeyboard, InlineButton
 
+
 @dp.message(Text("/app"))
 async def app_handler(m: Message):
-    print("helo")
-    (await m.answer(
-        text="Application", 
-        reply_markup=(
-            InlineKeyboard()
-            .add(
-                InlineButton("App", web_app={"url": WEBAPP_URL + "/app/uni"})
-            ).get_markup()
+    (
+        await m.answer(
+            text="Application",
+            reply_markup=(
+                InlineKeyboard()
+                .add(InlineButton("App", web_app={"url": WEBAPP_URL + "/app/uni"}))
+                .get_markup()
+            ),
         )
-    )).unwrap()
+    ).unwrap()

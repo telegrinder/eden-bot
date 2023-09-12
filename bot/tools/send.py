@@ -18,6 +18,9 @@ async def send_profile(chat_id: int, uid: int) -> int:
     if user.city:
         text += f", {user.city_written_name}"
 
+    if user.university:
+        text += f", {user.university.name}"
+
     if user.description:
         text += f" – {user.description}"
 

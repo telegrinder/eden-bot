@@ -9,12 +9,15 @@ from telegrinder import (
     Keyboard,
     Button,
     CallbackQuery,
+    InlineKeyboard,
+    InlineButton,
 )
 from telegrinder.bot.dispatch.handler.message_reply import MessageReplyHandler
 from telegrinder.types import InputMediaPhoto
 from telegrinder.bot.rules import FuncRule, Text
 from bot.tools.send import send_menu
 from constants import MIN_AGE
+from client import WEBAPP_URL
 
 interest_dictionary = {"b": "Парней", "g": "Девушек", "f": "Друзей"}
 
@@ -243,6 +246,16 @@ class RegisterMiddleware(ABCMiddleware):
                     description=description or "",
                 )
                 ctx.update({"user": users[0]})
+                await m.answer(
+                    "Кстати, если ты хочешь искать людей в пределах своего ВУЗа, ты можешь воспользоваться кнопкой ниже:",
+                    reply_markup=InlineKeyboard()
+                    .add(
+                        InlineButton(
+                            "Установить ВУЗ", web_app={"url": WEBAPP_URL + "/app/uni"}
+                        )
+                    )
+                    .get_markup(),
+                )
                 logger.info(f"Registration completed {m.chat.first_name}")
                 await send_menu(m.chat.id)
 

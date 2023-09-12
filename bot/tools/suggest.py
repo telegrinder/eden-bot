@@ -43,14 +43,20 @@ def build_query(user: User) -> typing.List[str]:
 async def suggest(user: User) -> typing.List[User]:
     qs = build_query(user)
     q = (
-        "with suggest_to := (select User { id, telegram_id, checked } filter .telegram_id = <str>$telegram_id), "
+        "with suggest_to := (select User { id, telegram_id, checked, university: {name} } filter .telegram_id = <str>$telegram_id), "
         "A := (select distinct " + " union ".join(qs) + ")\n"
         "select A {name, telegram_id} filter .telegram_id not in array_unpack(suggest_to.checked) and .display = true "
         "and .reported < 5"
     )
     if user.city and user.search_city:
-        q += " and " + ".city = suggest_to.city order by .last_active desc"
-    q += "  limit 10"
+        q += " and " + ".city = suggest_to.city"
+
+    if user.university:
+        q += " and .university = suggest_to.university"
+    else:
+        q += " and .university = <Uni>{}"
+
+    q += " order by .last_active desc limit 10"
     suggestions = list(await db.query(q, telegram_id=user.telegram_id))
     random.shuffle(suggestions)
     return suggestions

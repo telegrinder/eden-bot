@@ -22,6 +22,11 @@ GET_REPORTED = open("database/queries/get_reported.edgeql").read()
 _ = typing.Any
 
 
+class University:
+    id: str
+    name: str
+
+
 class User:
     """
     Fake type hint for user
@@ -45,6 +50,7 @@ class User:
     city_written_name: str
     search_city: bool
     reported: int
+    university: University | None
 
     def __getitem__(self, item) -> _:
         ...

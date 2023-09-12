@@ -8,6 +8,7 @@ import msgspec
 router = APIRouter(prefix="/bot")
 TEAPOT = HTTPException(status_code=status.HTTP_418_IM_A_TEAPOT)
 
+
 @router.post("/update")
 async def update_handler(request: Request) -> Response:
     """Telegram webhook updates receiver"""

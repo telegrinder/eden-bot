@@ -21,4 +21,3 @@ SYSTEM_ADMINS = (env.str("SYSTEM_ADMINS") or "").split(",")
 SECRET = str(uuid.uuid4())[:-12]
 JWT_ALG = env.str("jwt_alghorithm", default="HS256")
 WEBAPP_URL = env.str("webapp_url")
-

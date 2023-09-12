@@ -5,6 +5,7 @@ from database.user import get_by_uid, User
 
 security = HTTPBearer()
 
+
 async def get_auth(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> User:

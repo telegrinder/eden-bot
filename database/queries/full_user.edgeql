@@ -13,5 +13,6 @@ select User {
     city_written_name,
     pictures: {file_id},
     safe_mode, 
-    search_city
+    search_city,
+    university: {id, name},
 } filter .telegram_id = <str>$telegram_id

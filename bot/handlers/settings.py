@@ -14,6 +14,7 @@ from bot.tools.send import send_menu
 from bot.tools.city import search_city
 from bot.rules import SETTING_TOGGLE_RECEIVED
 from bot.keyboard.generators import KeyboardSet
+from client import WEBAPP_URL
 
 dp = Dispatch()
 
@@ -21,10 +22,16 @@ dp = Dispatch()
 def get_kb(user: User):
     return (
         InlineKeyboard(resize_keyboard=True)
+        # .add(
+        #     InlineButton(
+        #         "Указать город" if not user.city else "Изменить/удалить город",
+        #         callback_data="toggle_city",
+        #     )
+        # )
         .add(
             InlineButton(
-                "Указать город" if not user.city else "Изменить/удалить город",
-                callback_data="toggle_city",
+                "Установить настройки ВУЗа",
+                web_app={"url": WEBAPP_URL + "/app/uni"},
             )
         )
         .row()
@@ -52,7 +59,8 @@ def get_kb(user: User):
 def get_text(user: User):
     return (
         f"Настройки: \n\n"
-        f"Город: {user.city_written_name if user.city else 'не указан'}\n"
+        # f"Город: {user.city_written_name if user.city else 'не указан'}\n"
+        f"ВУЗ: {user.university.name if user.university else 'не указан'}\n"
         f"Поиск: {'безопасный' if user.safe_mode else 'без модерации'}, {'только в твоем городе' if user.search_city else 'где угодно'}\n\n"
         f"Если ты хочешь полностью сбросить свой профиль, воспользуйся командой /reset.\n\n"
         f"Если ты просто хочешь скрыть его, это можно сделать в разделе редактирования профиля."

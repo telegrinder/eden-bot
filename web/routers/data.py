@@ -12,7 +12,4 @@ class City(pydantic.BaseModel):
 
 @router.get("/city_lst")
 async def uni_search_handler() -> list[City]:
-    return [
-        City(id=k, name=v)
-        for k, v in (await list_cities()).items()
-    ]
+    return [City(id=k, name=v) for k, v in (await list_cities()).items()]

@@ -7,7 +7,6 @@ from client import JWT_ALG, SECRET
 TokenType = typing.Literal["access"]
 
 
-
 class InvalidToken(Exception):
     pass
 
@@ -22,7 +21,6 @@ def parse_token(token: str) -> dict[str, typing.Any]:
         )
     except:
         raise InvalidToken
-
 
 
 class JWTToken(str):

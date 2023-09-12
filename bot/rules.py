@@ -31,4 +31,3 @@ class HasPhoto(MessageRule):
 class AdminRule(MessageRule):
     async def check(self, m: Message, ctx: dict) -> bool:
         return await is_admin(m.from_.id)
-    

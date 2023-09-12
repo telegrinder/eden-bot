@@ -4,6 +4,9 @@
         <title>Поиск вуза</title>
     </head>
     <style>
+        body {
+            background: white;
+        }
         * {
             font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
         }
@@ -17,6 +20,50 @@
         }
         h1 {
             margin-top: 40px;
+        }
+
+        .university {
+            margin-top: 20px;
+            display: block;
+            height: 70px;
+            padding-left: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 20px;
+            border: 1px solid black;
+            border-radius: 10px;
+            border-bottom-width: 5px;
+            border-left-width: 5px;
+            background: #f6f6f6;
+            cursor: pointer;
+        }
+
+        .university:hover {
+            border-bottom-width: 4px;
+            border-left-width: 4px;
+        }
+
+        .university:active {
+            border-bottom-width: 1px;
+            border-left-width: 1px;
+        }
+
+        .verde {
+            border-color: green;
+            border-top-color: rgb(40, 152, 40);
+            border-right-color: rgb(41, 140, 41);
+        }
+
+        .blue {
+            border-color: darkblue;
+            border-top-color: rgb(38, 38, 145);
+            border-right-color: rgb(39, 39, 130);
+        }
+
+        .orange {
+            border-color: orange;
+            border-top-color: rgb(255, 181, 44);
+            border-right-color: rgb(255, 188, 64);
         }
     </style>
     <body>
@@ -44,6 +91,11 @@
                 update_timer = setTimeout(update_unis, 500, q);
             }
 
+            function random_color_from_int(i) {
+                let colors = ["orange", "verde", "blue"];
+                return colors[i % 3];
+            }
+
             function update_unis(q) {
                 let xmlHttp = new XMLHttpRequest();
                 xmlHttp.open("GET", "/uni/search?q=" + q, false);
@@ -57,13 +109,30 @@
 
                 for (let i = 0; i < response.length; i++) {
                     let node = document.createElement("div");
-                    node.className = "university";
-                    node.innerText = response[i].name;
+                    node.classList.add("university");
+                    node.classList.add(random_color_from_int(response[i].name.length));
+                    node.innerHTML = "<p><q>" + response[i].name + "</q></p>";
+                    node.addEventListener("click", function (event) {set_uni(response[i].id)});
                     node.id = response[i].id;
                     unis.appendChild(
                         node
                     );
                 }
+            }
+
+            function set_uni(uni_id) {
+                let req = new XMLHttpRequest();
+
+                if (uni_id) {
+                    req.open("PUT", "/uni/?uni_id=" + uni_id, false);
+                } else {
+                    req.open("DELETE", "/uni/", false);
+                }
+                req.setRequestHeader("Authorization", "Bearer " + authToken);
+                req.send();
+
+                alert("Настройки изменены!");
+                Telegram.WebApp.close();
             }
         </script>
 
@@ -73,6 +142,11 @@
             <input placeholder="Начните вводить название..." oninput="plan_update(this.value)">
         </div>
         <div id="unis">
+            <p>Здесь появятся искомые вузы. Нажмите на нужный вуз чтобы установить его себе в настройки.</p>
+        </div>
+
+        <div class="university" onclick="set_uni(null)">
+            <p>Без вуза</p>
         </div>
     </body>
 </html>

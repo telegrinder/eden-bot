@@ -12,4 +12,3 @@ templates = Jinja2Templates(directory=cur_path / "templates")
 @router.get("/uni")
 async def uni_app(request: Request):
     return templates.TemplateResponse("uni.html", {"request": request})
-

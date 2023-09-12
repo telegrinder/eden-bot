@@ -27,7 +27,9 @@ async def set_uni_handler(uni_id: str, user: User = Depends(get_auth)) -> Respon
     try:
         await uni.set_uni(user.telegram_id, uni_id)
     except:
-        raise HTTPException(status.HTTP_406_NOT_ACCEPTABLE, detail="Invalid university id.")
+        raise HTTPException(
+            status.HTTP_406_NOT_ACCEPTABLE, detail="Invalid university id."
+        )
     return Response(status_code=200)
 
 
