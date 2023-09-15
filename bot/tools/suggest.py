@@ -54,7 +54,7 @@ async def suggest(user: User) -> typing.List[User]:
     if user.university:
         q += " and .university = suggest_to.university"
     else:
-        q += " and .university = <Uni>{}"
+        q += " and not exists .university"
 
     q += " order by .last_active desc limit 10"
     suggestions = list(await db.query(q, telegram_id=user.telegram_id))
